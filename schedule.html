@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Розклад</title>
+    <link rel="stylesheet" href="calendar.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js" defer></script>
+    <script src="schedule.js" defer></script>
+</head>
+<body>
+      <div class="container">
+         <h1>Розклад 📅</h1>
+    
+         <div class="nav-box">
+             <a href="index.html" class="btn-nav">⬅ Повернутися до пацієнтів</a>
+         </div>
+    
+         <!-- Выбор даты -->
+         <div class="date-section">
+             <input type="date" id="currentDate" onchange="loadAppointments()">
+         </div>
+    
+         <!-- Форма добавления -->
+         <div class="input-panel">
+             <input type="time" id="aTime" required>
+             <input type="text" id="aName" placeholder="Ім'я пацієнта" required>
+             <input type="text" id="aPhone" placeholder="Телефон">
+             <input type="text" id="aDiag" placeholder="Діагноз">
+             <select id="aType">
+                 <option value="Консультація">Консультація</option>
+                 <option value="Реабілітація">Реабілітація</option>
+             </select>
+             <button class="btn-add" onclick="addAppointment()">Записати</button>
+         </div>
+    
+         <!-- Список записей -->
+         <div id="scheduleList">
+             <!-- Карточки будут появляться тут -->
+         </div>
+     </div>
+     
+</body>
+</html>

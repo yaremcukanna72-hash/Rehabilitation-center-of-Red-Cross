@@ -1,0 +1,252 @@
+ /* Лапки-стили для красоты и порядка */
+   :root {
+       --main-color: #6c5ce7;
+       /* Мягкий фиолетовый */
+       --bg-color: #f9f9fb;
+       --text-color: #2d3436;
+       --consult-color: #fab1a0;
+       /* Цвет для консультаций */
+       --rehab-color: #55efc4;
+       /* Цвет для реабилитации */
+   }
+
+   body {
+       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+       background-color: var(--bg-color);
+       color: var(--text-color);
+       margin: 0;
+       padding: 20px;
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+   }
+
+   .container {
+       width: 90%;
+       max-width: 1000px;
+       background: white;
+       padding: 25px;
+       border-radius: 15px;
+       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+   }
+
+   h1 {
+       text-align: center;
+       color: var(--main-color);
+   }
+
+   /* Поля для ввода (если захочешь добавить нового пациента) */
+   .input-group {
+       display: grid;
+       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+       gap: 10px;
+       margin-bottom: 20px;
+       padding: 15px;
+       background: #f1f2f6;
+       border-radius: 10px;
+   }
+
+   input,
+   select,
+   button {
+       padding: 10px;
+       border: 1px solid #dfe6e9;
+       border-radius: 8px;
+       outline: none;
+   }
+
+   button {
+       background-color: var(--main-color);
+       color: white;
+       border: none;
+       cursor: pointer;
+       transition: 0.3s;
+   }
+
+   button:hover {
+       opacity: 0.8;
+   }
+
+   /* Стили таблицы */
+   table {
+       width: 100%;
+       border-collapse: collapse;
+       margin-top: 20px;
+   }
+
+   th,
+   td {
+       text-align: left;
+       padding: 12px;
+       border-bottom: 1px solid #eee;
+   }
+
+   th {
+       background-color: #f8f9fa;
+       color: #636e72;
+   }
+
+   /* Метки статуса */
+   .status-badge {
+       padding: 5px 10px;
+       border-radius: 20px;
+       font-size: 0.85em;
+       font-weight: bold;
+   }
+
+   .status-consultation {
+       background-color: var(--consult-color);
+       color: #d63031;
+   }
+
+   .status-rehabilitation {
+       background-color: var(--rehab-color);
+       color: #00b894;
+   }
+
+   .btn-toggle {
+       font-size: 0.8em;
+       background: #dfe6e9;
+       color: #2d3436;
+   }
+               
+         body {
+             font-family: 'Segoe UI', sans-serif;
+             background-color: var(--bg-color);
+             margin: 0;
+             padding: 20px;
+             display: flex;
+             justify-content: center;
+         }
+    
+         .container {
+             width: 100%;
+             max-width: 800px;
+         }
+    
+         h1 {
+             text-align: center;
+             color: var(--main-color);
+             margin-bottom: 10px;
+         }
+    
+         .nav-box {
+             text-align: center;
+             margin-bottom: 25px;
+         }
+    
+         .btn-nav {
+             display: inline-block;
+             background: #95a5a6;
+             color: white;
+             text-decoration: none;
+             padding: 10px 20px;
+             border-radius: 10px;
+             font-weight: bold;
+             transition: 0.3s;
+         }
+    
+         .btn-nav:hover {
+             background: #7f8c8d;
+         }
+    
+         .date-section {
+             text-align: center;
+             margin-bottom: 20px;
+         }
+    
+         input[type="date"] {
+             padding: 10px;
+             font-size: 1.1rem;
+             border: 2px solid var(--main-color);
+             border-radius: 8px;
+         }
+    
+         .input-panel {
+             background: var(--white);
+             padding: 20px;
+             border-radius: 12px;
+             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+             margin-bottom: 20px;
+             display: flex;
+             flex-wrap: wrap;
+             gap: 10px;
+         }
+    
+         .input-panel input,
+         .input-panel select {
+             flex: 1;
+             min-width: 120px;
+             padding: 12px;
+             border: 1px solid #ddd;
+             border-radius: 8px;
+         }
+    
+         .btn-add {
+             background: var(--main-color);
+             color: white;
+             border: none;
+             padding: 12px;
+             border-radius: 8px;
+             font-weight: bold;
+             cursor: pointer;
+             flex-grow: 1;
+         }
+    
+         .appointment-card {
+             background: white;
+             padding: 15px;
+             border-radius: 10px;
+             margin-bottom: 10px;
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             border-left: 5px solid var(--main-color);
+             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+         }
+    
+         .time-tag {
+             background: #81ecec;
+             color: #00b894;
+             padding: 5px 10px;
+             border-radius: 5px;
+             font-weight:
+                 bold;
+             margin-right: 15px;
+         }
+    
+         .info {
+             flex-grow: 1;
+         }
+    
+         .info strong {
+             display: block;
+             font-size: 1.1rem;
+         }
+    
+         .info span {
+             color: #636e72;
+             font-size: 0.85rem;
+         }
+    
+         .btn-del {
+             background: #ff7675;
+             color: white;
+             border: none;
+             padding: 8px;
+             border-radius: 5px;
+             cursor:
+                 pointer;
+         }
+    
+         @media (max-width: 500px) {
+             .appointment-card {
+                 flex-direction: column;
+                 align-items: flex-start;
+                 gap: 10px;
+             }
+    
+             .btn-del {
+                 width: 100%;
+             }
+         }

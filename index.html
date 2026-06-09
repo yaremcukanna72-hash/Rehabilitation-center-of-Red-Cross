@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реабілітаційний простір</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js" defer></script>
+    <script src="script.js" defer></script> 
+</head>
+<body>
+    <div class="container">
+       
+     
+          <div class="nav-box">
+              <!-- Ссылка на второй файл -->
+              <a href="schedule.html" class="btn-nav">📅 Перейти до розкладу</a>
+          </div>
+        <h1>Журнал пацієнтів</h1>
+    
+         <!-- Блок добавления (ты сможешь вписать данные вручную здесь или в JS) -->
+      <div class="input-group">
+           <input type="text" id="pName" placeholder="ФІО пацієнта">
+           <input type="text" id="pPhone" placeholder="Номер телефону">
+          <input type="text" id="pDiagnosis" placeholder="Діагноз">
+           <select id="pStatus">
+                <option value="Консультація">Тільки консультація</option>
+              <option value="Реабилитація">На реабілітації</option>
+          </select>
+           <button onclick="addPatient()">Додати до списку</button>
+       </div>
+    
+        <!-- Основна таблиця -->
+        <table id="patientTable">
+           <thead>
+               <tr>
+                   <th>Ім'я</th>
+                  <th>Телефон</th>
+                   <th>Діагноз</th>
+                  <th>Статус</th>
+                    <th>Дія</th>
+            </tr>
+           </thead>
+        <tbody>
+               <!-- Сюда "прилетят" наши пациенты через JS -->
+            </tbody>
+     </table>
+    </div>
+</body>
+</html>
