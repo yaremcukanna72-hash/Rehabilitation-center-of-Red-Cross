@@ -1,5 +1,5 @@
-const supabaseUrl = 'https://jauvcxiasjqdzontmwyi.supabase.co';
-const supabaseAnonKey = 'sb_publishable_njR-amwJ98nu7SWeoLYm4A_ozSChP4E';
+const supabaseUrl = 'https://zxkuvtveikixsubizrid.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp4a3V2dHZlaWtpeHN1Yml6cmlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5ODcxNjMsImV4cCI6MjA5NjU2MzE2M30.E3fDkA9aEvtRn6j6QAhYIS7QsQjs5Ic-2TzjdIPcnKg';
 
 // Використовуємо іншу назву змінної, щоб не було конфлікту з глобальним об'єктом Supabase
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseAnonKey);
@@ -25,4 +25,4 @@ async function savePatientToCloud(patient) {
 
     if (error) console.error('Помилка збереження:', error);
     return data;
-}
+} 

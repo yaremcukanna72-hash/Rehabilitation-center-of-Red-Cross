@@ -1,7 +1,5 @@
-// 1. Отримуємо клієнт з нашого supabaseClient.js
 let dailyAppointments = [];
 
-// 2. При завантаженні сторінки ставимо сьогоднішню дату
 document.addEventListener("DOMContentLoaded", () => {
     const today = new Date().toISOString().split('T')[0];
     const dateInput = document.getElementById('currentDate');
@@ -11,13 +9,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// 3. Завантаження записів з Supabase для обраної дати
 async function loadAppointments() {
     const selectedDate = document.getElementById('currentDate').value;
     const container = document.getElementById('scheduleList');
     if (!container) return;
     
-    container.innerHTML = '<p style="text-align:center; color:#a4b0be; margin-top:20px;">Завантаження розкладу... 🐾</p>';
+    container.innerHTML = '<p style="text-align:center; color:#a4b0be; margin-top:20px;">Завантаження... 🐾</p>';
 
     try {
         const { data, error } = await supabaseClient
@@ -26,17 +23,19 @@ async function loadAppointments() {
             .eq('date', selectedDate)
             .order('time', { ascending: true });
 
-        if (error) throw error;
+        if (error) {
+            alert('Помилка завантаження розкладу: ' + error.message);
+            throw error;
+        }
         
         dailyAppointments = data || [];
         renderAppointments();
     } catch (err) {
-        console.error('Помилка завантаження розкладу:', err);
-        container.innerHTML = '<p style="text-align:center; color:#ff7675; margin-top:20px;">Помилка хмари. Перевірте з\'єднання. 😿</p>';
+        console.error('Помилка:', err);
+        container.innerHTML = '<p style="text-align:center; color:#ff7675; margin-top:20px;">Помилка підключення. 😿</p>';
     }
 }
 
-// 4. Малювання карток на екрані
 function renderAppointments() {
     const container = document.getElementById('scheduleList');
     container.innerHTML = '';
@@ -46,7 +45,7 @@ function renderAppointments() {
         return;
     }
 
-    dailyAppointments.forEach((item, index) => {
+    dailyAppointments.forEach((item) => {
         const borderColor = item.type === 'Реабілітація' ? '#00b894' : '#6c5ce7';
 
         const cardHTML = `
@@ -67,7 +66,6 @@ function renderAppointments() {
     });
 }
 
-// 5. Функція додавання нового запису в Supabase
 async function addAppointment() {
     const date = document.getElementById('currentDate').value;
     const time = document.getElementById('aTime').value;
@@ -88,23 +86,23 @@ async function addAppointment() {
             .from('appointments')
             .insert([newEntry]);
 
-        if (error) throw error;
+        if (error) {
+            alert('Помилка запису в розклад: ' + error.message);
+            throw error;
+        }
 
-        // Очищаємо поля
+        // Очищаємо
         document.getElementById('aTime').value = '';
         document.getElementById('aName').value = '';
         document.getElementById('aPhone').value = '';
         document.getElementById('aDiag').value = '';
         
-        // Оновлюємо список
         loadAppointments();
     } catch (err) {
         console.error('Помилка збереження:', err);
-        alert('Не вдалося зберегти запис у хмару 😿');
     }
 }
 
-// 6. Функція видалення з Supabase
 async function deleteAppointment(id) {
     if (confirm('Точно відмінити цей запис?')) {
         try {
@@ -116,7 +114,7 @@ async function deleteAppointment(id) {
             if (error) throw error;
             loadAppointments();
         } catch (err) {
-            console.error('Помилка видалення:', err);
+            alert('Помилка видалення: ' + err.message);
         }
     }
 }

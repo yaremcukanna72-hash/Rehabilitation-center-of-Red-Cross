@@ -1,7 +1,5 @@
-// Використовуємо клієнт з нашого supabaseClient.js
 let patients = [];
 
-// 1. Завантаження даних з Supabase
 async function fetchPatients() {
     try {
         const { data, error } = await supabaseClient
@@ -9,26 +7,28 @@ async function fetchPatients() {
             .select('*')
             .order('id', { ascending: false });
 
-        if (error) throw error;
-        
-        patients = data || [];
+        if (error) {
+            console.error('Помилка завантаження:', error);
+            // Спробуємо завантажити з локальної пам'яті, якщо хмара не відповідає
+            patients = JSON.parse(localStorage.getItem('medicalRecords')) || [];
+        } else {
+            patients = data || [];
+        }
         render();
     } catch (err) {
-        console.error('Помилка завантаження з хмари:', err);
-        // Якщо хмара недоступна, беремо з пам'яті браузера
+        console.error('Критична помилка:', err);
         patients = JSON.parse(localStorage.getItem('medicalRecords')) || [];
         render();
     }
 }
 
-// 2. Малювання таблиці
 function render() {
     const tbody = document.querySelector('#patientTable tbody');
     if (!tbody) return;
     tbody.innerHTML = '';
 
     patients.forEach((p, index) => {
-        const isRehab = p.status === 'Реабилитація';
+        const isRehab = p.status === 'Реабілітація';
         const row = document.createElement('tr');
 
         row.innerHTML = `
@@ -40,43 +40,46 @@ function render() {
             </td>
             <td data-label="Дії">
                 <button class="btn-action btn-status" onclick="toggle(${index})">Змінити статус</button>
-                <button class="btn-action btn-delete" onclick="remove(${p.id || index}, ${index})">✕</button>
+                <button class="btn-action btn-delete" onclick="remove(${p.id || null}, ${index})">✕</button>
             </td>
         `;
         tbody.appendChild(row);
     });
 }
 
-// 3. Додавання пацієнта
 async function addPatient() {
-    const name = document.getElementById('pName').value;
-    const phone = document.getElementById('pPhone').value;
-    const diagnosis = document.getElementById("pDiagnosis").value;
+    const name = document.getElementById('pName').value.trim();
+    const phone = document.getElementById('pPhone').value.trim();
+    const diagnosis = document.getElementById("pDiagnosis").value.trim();
     const status = document.getElementById("pStatus").value;
 
-    if (name.trim() && phone.trim()) {
+    if (name && phone) {
         const newPatient = { name, phone, diagnosis, status };
         
-        // Відправляємо в Supabase
         try {
             const { data, error } = await supabaseClient
                 .from('patients')
                 .insert([newPatient])
                 .select();
             
-            if (error) throw error;
+            if (error) {
+                alert('Помилка Supabase: ' + error.message + '\nПеревір, чи створена таблиця "patients"!');
+                throw error;
+            }
             
-            // Додаємо в локальний список для швидкості
-            patients.unshift(data[0]);
+            if (data && data[0]) {
+                patients.unshift(data[0]);
+                render();
+            }
         } catch (err) {
-            console.error('Помилка збереження в хмару:', err);
-            // Запасний варіант - локальна пам'ять
-            patients.unshift(newPatient);
+            console.error('Помилка збереження:', err);
+            // Якщо не вдалося в хмару, збережемо хоча б локально
+            patients.unshift({ ...newPatient, id: Date.now() });
             localStorage.setItem('medicalRecords', JSON.stringify(patients));
+            render();
         }
 
-        render();
-        // Очистка полей
+        // Очистка
         document.getElementById('pName').value = '';
         document.getElementById('pPhone').value = '';
         document.getElementById('pDiagnosis').value = '';
@@ -85,10 +88,9 @@ async function addPatient() {
     }
 }
 
-// 4. Зміна статусу
 async function toggle(index) {
     const p = patients[index];
-    const newStatus = (p.status === 'Консультація') ? 'Реабилитація' : 'Консультація';
+    const newStatus = (p.status === 'Консультація') ? 'Реабілітація' : 'Консультація';
     
     try {
         if (p.id) {
@@ -101,15 +103,14 @@ async function toggle(index) {
         patients[index].status = newStatus;
         render();
     } catch (err) {
-        console.error('Помилка оновлення:', err);
+        alert('Не вдалося змінити статус: ' + err.message);
     }
 }
 
-// 5. Видалення
 async function remove(id, index) {
     if (confirm('Видалити цей запис?')) {
         try {
-            if (id && patients[index].id) {
+            if (id) {
                 const { error } = await supabaseClient
                     .from('patients')
                     .delete()
@@ -117,12 +118,12 @@ async function remove(id, index) {
                 if (error) throw error;
             }
             patients.splice(index, 1);
+            localStorage.setItem('medicalRecords', JSON.stringify(patients));
             render();
         } catch (err) {
-            console.error('Помилка видалення:', err);
+            alert('Помилка видалення: ' + err.message);
         }
     }
 }
 
-// Старт
 fetchPatients();
